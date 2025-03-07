@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С 8 Марта!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #f8bbd0 100%);
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            padding: 3rem;
+            background-color: rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: cardAppear 1.5s forwards;
+        }
+
+        .container:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            background-color: rgba(255, 255, 255, 0.35);
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 4vw;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: textGlow 6s infinite alternate;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        p {
+            color: #fff;
+            font-size: 1.8vw;
+            margin-top: 20px;
+            animation: fadeIn 3s ease-in-out;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            line-height: 1.5;
+        }
+
+        /* Улучшенная анимация цветов и других элементов */
+        .flowers-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .flower {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transform-origin: center;
+            z-index: 1;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.15));
+        }
+        
+        .flower:nth-child(3n+1) {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23FF80AB' d='M50 15c-5 0-10 5-10 10s5 10 10 10 10-5 10-10-5-10-10-10zm-25 25c-5 0-10 5-10 10s5 10 10 10 10-5 10-10-5-10-10-10zm50 0c-5 0-10 5-10 10s5 10 10 10 10-5 10-10-5-10-10-10zm-25 25c-5 0-10 5-10 10s5 10 10 10 10-5 10-10-5-10-10-10z'/%3E%3Ccircle fill='%23FFEB3B' cx='50' cy='50' r='10'/%3E%3C/svg%3E");
+        }
+        
+        .flower:nth-child(3n+2) {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23F06292' d='M50 10c-3 10-12 20-20 20s-7-15 0-20 10 0 20 0zm0 0c3 10 12 20 20 20s7-15 0-20-10 0-20 0zm0 0c-10 3-20 12-20 20s15 7 20 0 0-10 0-20zm0 0c10 3 20 12 20 20s-15 7-20 0 0-10 0-20z'/%3E%3Ccircle fill='%23FFF176' cx='50' cy='50' r='10'/%3E%3C/svg%3E");
+        }
+
+        .flower:nth-child(3n) {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23BA68C8' d='M50 10c-8 0-15 7-15 15s7 15 15 15 15-7 15-15-7-15-15-15zm0 50c-8 0-15 7-15 15s7 15 15 15 15-7 15-15-7-15-15-15zm-25-25c-8 0-15 7-15 15s7 15 15 15 15-7 15-15-7-15-15-15zm50 0c-8 0-15 7-15 15s7 15 15 15 15-7 15-15-7-15-15-15z'/%3E%3Ccircle fill='%23FFF59D' cx='50' cy='50' r='12'/%3E%3C/svg%3E");
+        }
+
+        /* Варьируем размеры цветов */
+        .flower:nth-child(4n) {
+            width: 40px;
+            height: 40px;
+        }
+
+        .flower:nth-child(5n) {
+            width: 80px;
+            height: 80px;
+            opacity: 0.8;
+        }
+
+        .flower:nth-child(7n) {
+            width: 65px;
+            height: 65px;
+            opacity: 0.9;
+        }
+
+        /* Сердечки с разными стилями */
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 1;
+            opacity: 0;
+            filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
+        }
+
+        .heart:nth-child(odd) {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23FF4081' d='M50 90C40 80 10 60 10 35c0-20 15-25 25-25 15 0 15 10 15 15 0-5 0-15 15-15 10 0 25 5 25 25 0 25-30 45-40 55z'/%3E%3C/svg%3E");
+        }
+
+        .heart:nth-child(even) {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23E91E63' d='M50 90C40 80 10 60 10 35c0-20 15-25 25-25 15 0 15 10 15 15 0-5 0-15 15-15 10 0 25 5 25 25 0 25-30 45-40 55z'/%3E%3C/svg%3E");
+        }
+        
+        .heart:nth-child(3n) {
+            width: 25px;
+            height: 25px;
+        }
+        
+        .heart:nth-child(5n) {
+            width: 35px;
+            height: 35px;
+        }
+
+        /* Добавляем парящие блестки */
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 2;
+            opacity: 0;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+        }
+        
+        .sparkle:nth-child(even) {
+            background-color: rgba(255, 253, 160, 0.8);
+            box-shadow: 0 0 10px 2px rgba(255, 253, 160, 0.8);
+        }
+        
+        .sparkle:nth-child(3n) {
+            background-color: rgba(255, 214, 231, 0.8);
+            box-shadow: 0 0 10px 2px rgba(255, 214, 231, 0.8);
+        }
+
+        /* Эффект блеска */
+        .shine-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .shine {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+            animation: shine 8s infinite;
+            pointer-events: none;
+            z-index: 9;
+        }
+
+        /* Пузырьки */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.5);
+            z-index: 1;
+            opacity: 0;
+        }
+
+        /* Ключевые кадры анимации */
+        @keyframes cardAppear {
+            0% { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.9);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { 
+                transform: translate(0, 0) rotate(0deg) scale(0.9); 
+                opacity: 0; 
+            }
+            15% { 
+                opacity: 0.9; 
+            }
+            50% { 
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1); 
+                opacity: 1; 
+            }
+            85% { 
+                opacity: 0.9; 
+            }
+            100% { 
+                transform: translate(calc(var(--tx) * 2), calc(var(--ty) * 2)) rotate(calc(var(--rot) * 2)) scale(0.9); 
+                opacity: 0; 
+            }
+        }
+
+        @keyframes textGlow {
+            0% { 
+                color: #fff; 
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 128, 171, 0.3);
+            }
+            25% { 
+                color: #ffcdd2; 
+                text-shadow: 0 0 5px rgba(255, 205, 210, 0.5), 0 0 10px rgba(255, 105, 180, 0.4);
+            }
+            50% { 
+                color: #f8bbd0; 
+                text-shadow: 0 0 5px rgba(248, 187, 208, 0.5), 0 0 10px rgba(255, 64, 129, 0.5);
+            }
+            75% { 
+                color: #e1bee7; 
+                text-shadow: 0 0 5px rgba(225, 190, 231, 0.5), 0 0 10px rgba(224, 64, 251, 0.4);
+            }
+            100% { 
+                color: #d1c4e9; 
+                text-shadow: 0 0 5px rgba(209, 196, 233, 0.5), 0 0 10px rgba(124, 77, 255, 0.3);
+            }
+        }
+
+        @keyframes heartBeat {
+            0% { 
+                transform: translate(var(--x), -50px) scale(0.5) rotate(var(--r)); 
+                opacity: 0; 
+            }
+            20% { 
+                transform: translate(var(--x), calc(var(--y) * 0.3)) scale(0.7) rotate(var(--r)); 
+                opacity: 0.5;
+            }
+            50% { 
+                transform: translate(var(--x), var(--y)) scale(1) rotate(var(--r)); 
+                opacity: 0.9; 
+            }
+            80% { 
+                transform: translate(var(--x), calc(var(--y) + 100px)) scale(0.7) rotate(calc(var(--r) * 2)); 
+                opacity: 0.5;
+            }
+            100% { 
+                transform: translate(var(--x), 100vh) scale(0.5) rotate(calc(var(--r) * 3)); 
+                opacity: 0; 
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg) scale(0.8); opacity: 0; }
+            25% { opacity: 0.3; }
+            50% { transform: rotate(180deg) scale(1.2); opacity: 0.5; }
+            75% { opacity: 0.3; }
+            100% { transform: rotate(360deg) scale(0.8); opacity: 0; }
+        }
+
+        @keyframes sparkleFloat {
+            0% { 
+                transform: translate(0, 0) scale(0.2); 
+                opacity: 0; 
+            }
+            25% { 
+                transform: translate(var(--tx1), var(--ty1)) scale(1); 
+                opacity: var(--op); 
+            }
+            50% { 
+                transform: translate(var(--tx2), var(--ty2)) scale(0.7); 
+                opacity: var(--op); 
+            }
+            75% { 
+                transform: translate(var(--tx3), var(--ty3)) scale(1.2); 
+                opacity: var(--op); 
+            }
+            100% { 
+                transform: translate(var(--tx4), var(--ty4)) scale(0.2); 
+                opacity: 0; 
+            }
+        }
+
+        @keyframes bubbleRise {
+            0% {
+                transform: scale(0.2) translate(0, 0);
+                opacity: 0;
+            }
+            25% {
+                opacity: var(--op);
+            }
+            50% {
+                transform: scale(1) translate(var(--tx), calc(var(--ty) * 0.5));
+                opacity: var(--op);
+            }
+            75% {
+                opacity: var(--op);
+            }
+            100% {
+                transform: scale(0.5) translate(calc(var(--tx) * 2), var(--ty));
+                opacity: 0;
+            }
+        }
+
+        /* Медиа-запросы для адаптивности */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+            p {
+                font-size: 16px;
+            }
+            .container {
+                padding: 1.5rem;
+                max-width: 90%;
+            }
+            .flower {
+                max-width: 50px;
+                max-height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 28px;
+            }
+            p {
+                font-size: 14px;
+            }
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flowers-container" id="flowersContainer"></div>
+    
+    <div class="container">
+        <h1>С 8 Марта!</h1>
+        <p>Желаем счастья, любви и<br>весны в душе!</p>
+    </div>
+    
+    <div class="shine-container">
+        <div class="shine"></div>
+    </div>
+
+    <script>
+        // Функция для создания цветов с улучшенными параметрами движения
+        function createFlowers(count) {
+            const container = document.getElementById('flowersContainer');
+            
+            for (let i = 0; i < count; i++) {
+                const flower = document.createElement('div');
+                flower.className = 'flower';
+                
+                // Задаем случайные параметры для каждого цветка
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = 8 + Math.random() * 12; // 8-20 секунд
+                const delay = Math.random() * 7; // задержка 0-7 секунд
+                
+                // Случайные смещения для анимации с большей амплитудой
+                const tx = (Math.random() - 0.5) * 400; // более широкий диапазон
+                const ty = (Math.random() - 0.5) * 400;
+                const rot = (Math.random() - 0.5) * 720; // больше вращения
+                
+                // Устанавливаем CSS свойства
+                flower.style.left = `${posX}%`;
+                flower.style.top = `${posY}%`;
+                flower.style.setProperty('--tx', `${tx}px`);
+                flower.style.setProperty('--ty', `${ty}px`);
+                flower.style.setProperty('--rot', `${rot}deg`);
+                flower.style.animation = `float ${duration}s infinite cubic-bezier(0.4, 0, 0.6, 1) ${delay}s`;
+                
+                container.appendChild(flower);
+            }
+        }
+
+        // Функция для создания сердечек с улучшенной анимацией
+        function createHearts(count) {
+            const container = document.getElementById('flowersContainer');
+            
+            for (let i = 0; i < count; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                
+                // Задаем случайные параметры
+                const x = Math.random() * 100; // позиция по X в %
+                const y = 30 + Math.random() * 60; // позиция по Y в % (более широкий диапазон)
+                const duration = 5 + Math.random() * 10; // длительность 5-15 секунд
+                const delay = Math.random() * 10; // задержка 0-10 секунд
+                const rotate = -45 + Math.random() * 90; // поворот от -45 до +45 градусов
+                
+                heart.style.setProperty('--x', `${x}%`);
+                heart.style.setProperty('--y', `${y}%`);
+                heart.style.setProperty('--r', `${rotate}deg`);
+                heart.style.animation = `heartBeat ${duration}s infinite cubic-bezier(0.36, 0.66, 0.04, 1) ${delay}s`;
+                
+                container.appendChild(heart);
+            }
+        }
+
+        // Функция для создания блесток
+        function createSparkles(count) {
+            const container = document.getElementById('flowersContainer');
+            
+            for (let i = 0; i < count; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                
+                // Начальная позиция
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                
+                // Случайные смещения для сложной траектории
+                const tx1 = (Math.random() - 0.5) * 150;
+                const ty1 = (Math.random() - 0.5) * 150;
+                const tx2 = (Math.random() - 0.5) * 150;
+                const ty2 = (Math.random() - 0.5) * 150;
+                const tx3 = (Math.random() - 0.5) * 150;
+                const ty3 = (Math.random() - 0.5) * 150;
+                const tx4 = (Math.random() - 0.5) * 150;
+                const ty4 = (Math.random() - 0.5) * 150;
+                
+                // Прочие параметры
+                const duration = 4 + Math.random() * 6; // 4-10 секунд
+                const delay = Math.random() * 12; // 0-12 секунд задержки
+                const opacity = 0.5 + Math.random() * 0.5; // Непрозрачность 0.5-1
+                
+                // Настройка стилей
+                sparkle.style.left = `${posX}%`;
+                sparkle.style.top = `${posY}%`;
+                sparkle.style.setProperty('--tx1', `${tx1}px`);
+                sparkle.style.setProperty('--ty1', `${ty1}px`);
+                sparkle.style.setProperty('--tx2', `${tx2}px`);
+                sparkle.style.setProperty('--ty2', `${ty2}px`);
+                sparkle.style.setProperty('--tx3', `${tx3}px`);
+                sparkle.style.setProperty('--ty3', `${ty3}px`);
+                sparkle.style.setProperty('--tx4', `${tx4}px`);
+                sparkle.style.setProperty('--ty4', `${ty4}px`);
+                sparkle.style.setProperty('--op', opacity);
+                sparkle.style.animation = `sparkleFloat ${duration}s infinite ease-in-out ${delay}s`;
+                
+                container.appendChild(sparkle);
+            }
+        }
+
+        // Функция для создания пузырьков
+        function createBubbles(count) {
+            const container = document.getElementById('flowersContainer');
+            
+            for (let i = 0; i < count; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                
+                // Размер
+                const size = 5 + Math.random() * 15; // 5-20px
+                
+                // Начальная позиция
+                const posX = Math.random() * 100;
+                const posY = 50 + Math.random() * 50; // Внизу экрана
+                
+                // Анимация
+                const tx = (Math.random() - 0.5) * 100;
+                const ty = -100 - Math.random() * 150; // Движение вверх
+                const duration = 6 + Math.random() * 9; // 6-15 секунд
+                const delay = Math.random() * 15; // 0-15 секунд задержки
+                const opacity = 0.3 + Math.random() * 0.4; // Непрозрачность 0.3-0.7
+                
+                // Настройка стилей
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${posX}%`;
+                bubble.style.bottom = `${posY}%`;
+                bubble.style.setProperty('--tx', `${tx}px`);
+                bubble.style.setProperty('--ty', `${ty}px`);
+                bubble.style.setProperty('--op', opacity);
+                bubble.style.animation = `bubbleRise ${duration}s infinite ease-in-out ${delay}s`;
+                
+                container.appendChild(bubble);
+            }
+        }
+
+        // Создаем элементы при загрузке страницы
+        window.addEventListener('load', () => {
+            createFlowers(30); // 30 цветов
+            createHearts(20); // 20 сердечек
+            createSparkles(50); // 50 блесток
+            createBubbles(30); // 30 пузырьков
+        });
+
+        // Функция для создания эффекта при клике
+        document.addEventListener('click', (e) => {
+            // Создаем группу блесток при клике
+            for (let i = 0; i < 10; i++) {
+                const clickSparkle = document.createElement('div');
+                clickSparkle.className = 'sparkle';
+                
+                const size = 3 + Math.random() * 5;
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 20 + Math.random() * 50;
+                const duration = 1 + Math.random() * 2;
+                clickSparkle.style.width = `${size}px`;
+                clickSparkle.style.height = `${size}px`;
+                clickSparkle.style.left = `${e.pageX}px`;
+                clickSparkle.style.top = `${e.pageY}px`;
+                
+                // Устанавливаем траекторию движения
+                const tx1 = Math.cos(angle) * distance * 0.3;
+                const ty1 = Math.sin(angle) * distance * 0.3;
+                const tx2 = Math.cos(angle) * distance * 0.6;
+                const ty2 = Math.sin(angle) * distance * 0.6;
+                const tx3 = Math.cos(angle) * distance * 0.9;
+                const ty3 = Math.sin(angle) * distance * 0.9;
+                const tx4 = Math.cos(angle) * distance;
+                const ty4 = Math.sin(angle) * distance;
+                
+                clickSparkle.style.setProperty('--tx1', `${tx1}px`);
+                clickSparkle.style.setProperty('--ty1', `${ty1}px`);
+                clickSparkle.style.setProperty('--tx2', `${tx2}px`);
+                clickSparkle.style.setProperty('--ty2', `${ty2}px`);
+                clickSparkle.style.setProperty('--tx3', `${tx3}px`);
+                clickSparkle.style.setProperty('--ty3', `${ty3}px`);
+                clickSparkle.style.setProperty('--tx4', `${tx4}px`);
+                clickSparkle.style.setProperty('--ty4', `${ty4}px`);
+                clickSparkle.style.setProperty('--op', '1');
+                
+                clickSparkle.style.animation = `sparkleFloat ${duration}s forwards ease-out`;
+                
+                document.getElementById('flowersContainer').appendChild(clickSparkle);
+                
+                // Удаляем элементы после окончания анимации
+                setTimeout(() => {
+                    clickSparkle.remove();
+                }, duration * 1000);
+            }
+            
+            // Создаем сердечко при клике
+            const clickHeart = document.createElement('div');
+            clickHeart.className = 'heart';
+            clickHeart.style.width = '40px';
+            clickHeart.style.height = '40px';
+            clickHeart.style.left = `${e.pageX - 20}px`;
+            clickHeart.style.top = `${e.pageY - 20}px`;
+            clickHeart.style.opacity = '1';
+            clickHeart.style.transform = 'scale(0)';
+            clickHeart.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            
+            document.getElementById('flowersContainer').appendChild(clickHeart);
+            
+            // Анимируем появление и исчезновение
+            setTimeout(() => {
+                clickHeart.style.transform = 'scale(1.2)';
+            }, 10);
+            
+            setTimeout(() => {
+                clickHeart.style.transform = 'scale(1) translateY(-50px)';
+                clickHeart.style.opacity = '0';
+            }, 500);
+            
+            // Удаляем после анимации
+            setTimeout(() => {
+                clickHeart.remove();
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
